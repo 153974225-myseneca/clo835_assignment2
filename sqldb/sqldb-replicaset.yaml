@@ -9,11 +9,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: sqldb
+      app: mysql
   template:
     metadata:
       labels:
-        app: sqldb
+        app: mysql
     spec:
       containers:
       - name: sqldb
