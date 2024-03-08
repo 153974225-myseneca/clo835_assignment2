@@ -36,9 +36,9 @@ jobs:
         #cd Assignment
         #ls -ltra
         # Docker build image database
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:database -f Dockerfile_mysql .
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:database:$IMAGE_TAG -f Dockerfile_mysql .
         # Docker push image
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:database
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:database:$IMAGE_TAG
         # Docker build app
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:webapp:$IMAGE_TAG -f Dockerfile .
         # Docker push
