@@ -4,7 +4,7 @@ metadata:
   name: sqldb-pod
   namespace: sqldb
   labels:          
-    app: mysql
+    app: sqldb
 spec:
   containers:
   - name: sqldb
