@@ -2,7 +2,7 @@ name: Deploy to ECR
 
 on: 
   push:
-    branches: [ main ]
+    branches: [ dev ]
 
 jobs:
 
@@ -30,6 +30,7 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: fatima-assignment-2
+        IMAGE_TAG: v2
         
       run: |
         #cd Assignment
@@ -39,6 +40,6 @@ jobs:
         # Docker push image
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:database
         # Docker build app
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:webapp -f Dockerfile .
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:webapp:$IMAGE_TAG -f Dockerfile .
         # Docker push
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:webapp
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:webapp:$IMAGE_TAG
