@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: sqldb-replicaset
+  namespace: sqldb
+  labels:
+    app: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sqldb
+  template:
+    metadata:
+      labels:
+        app: sqldb
+    spec:
+      containers:
+      - name: sqldb
+        image: 810910366372.dkr.ecr.us-east-1.amazonaws.com/fatima-assignment-2:database
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-config
+              key: MYSQL_ROOT_PASSWORD
+        - name: DBHOST
+          valueFrom:
+            secretKeyRef:
+              name: db-config
+              key: DBHOST
+        - name: DBUSER
+          valueFrom:
+            secretKeyRef:
+              name: db-config
+              key: DBUSER
+        - name: DBPWD
+          valueFrom:
+            secretKeyRef:
+              name: db-config
+              key: DBPWD
+        - name: DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: db-config
+              key: DATABASE
