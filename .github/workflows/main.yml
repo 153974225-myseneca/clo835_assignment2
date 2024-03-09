@@ -11,7 +11,6 @@ jobs:
     name: Build Image
     runs-on: ubuntu-latest
 
-
     steps:
 
     - name: Check out code
@@ -20,6 +19,7 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
+      
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -30,15 +30,17 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: fatima-assignment-2
+        IMAGE_TAG_DB: database-v2  
+        IMAGE_TAG_APP: webapp-v2  
         
       run: |
         #cd Assignment
         #ls -ltra
         # Docker build image database
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:database -f Dockerfile_mysql .
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_DB -f Dockerfile_mysql .
         # Docker push image
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:database
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_DB
         # Docker build app
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:webapp -f Dockerfile .
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_APP -f Dockerfile .
         # Docker push
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:webapp
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_APP
